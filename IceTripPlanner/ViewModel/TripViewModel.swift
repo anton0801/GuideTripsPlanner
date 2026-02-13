@@ -19,7 +19,6 @@ class TripViewModel: ObservableObject {
             .assign(to: &$trips)
     }
     
-    // MARK: - Trip Management
     func createTrip(
         name: String,
         date: Date,
@@ -41,6 +40,46 @@ class TripViewModel: ObservableObject {
         )
         
         storageManager.addTrip(trip)
+    }
+    
+    
+    func createTripTodayWithSomenote(
+        name: String,
+        season: Season,
+        placeName: String
+    ) {
+        let checklistItems = season == .ice
+            ? ChecklistPreset.iceFishingItems
+            : ChecklistPreset.summerFishingItems
+        
+        let trip = Trip(
+            name: name,
+            date: Date(),
+            season: season,
+            placeName: placeName,
+            notes: "Some note",
+            checklistItems: checklistItems
+        )
+        
+        storageManager.addTrip(trip)
+    }
+    
+    func createTripTodayWithSomenote(
+        note: String,
+        name: String,
+        season: Season,
+        placeName: String
+    ) {
+        storageManager.addTrip(Trip(
+            name: name,
+            date: Date(),
+            season: season,
+            placeName: placeName,
+            notes: note,
+            checklistItems: season == .ice
+            ? ChecklistPreset.iceFishingItems
+            : ChecklistPreset.summerFishingItems
+        ))
     }
     
     func updateTrip(_ trip: Trip) {
@@ -85,7 +124,6 @@ class TripViewModel: ObservableObject {
         updateTrip(trip)
     }
     
-    // MARK: - Filtering & Sorting
     func upcomingTrips() -> [Trip] {
         trips.filter { $0.date >= Date() && $0.status == .planned }
             .sorted { $0.date < $1.date }

@@ -1,7 +1,13 @@
 import SwiftUI
+import Firebase
 
 @main
 struct IceTripPlannerApp: App {
+    
+    init() {
+        FirebaseApp.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
             SplashScreenView2()
