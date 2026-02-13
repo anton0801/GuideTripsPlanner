@@ -1,17 +1,15 @@
-//
-//  IceTripPlannerApp.swift
-//  IceTripPlanner
-//
-//  Created by Anton Danilov on 21/1/26.
-//
-
 import SwiftUI
 
 @main
 struct IceTripPlannerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreenView2()
         }
     }
+}
+
+struct AppVars {
+    static let appID  = "6758891568"
+    static let devKey = "F8AUQnr7wRJGxjgpWe7t7T"
 }

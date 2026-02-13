@@ -14,33 +14,63 @@ struct ContentView: View {
         }
     }
     
+    @State private var lastShownToastId: String = ""
+    @State private var newlyUnlocked:    Achievement? = nil
+    
     var mainTabView: some View {
-        TabView(selection: $selectedTab) {
-            CalendarView()
-                .tabItem {
-                    Label("Calendar", systemImage: "calendar")
-                }
-                .tag(0)
+        ZStack {
             
-            TripsListView()
-                .tabItem {
-                    Label("Trips", systemImage: "list.bullet")
-                }
-                .tag(1)
+            TabView(selection: $selectedTab) {
+                CalendarView()
+                    .tabItem {
+                        Label("Calendar", systemImage: "calendar")
+                    }
+                    .tag(0)
+                
+                TripsListView()
+                    .tabItem {
+                        Label("Trips", systemImage: "list.bullet")
+                    }
+                    .tag(1)
+                
+                //            StatisticsView()
+                //                .tabItem {
+                //                    Label("Stats", systemImage: "chart.bar.fill")
+                //                }
+                //                .tag(2)
+                AnalyticsView()
+                    .tabItem { Label("Analytics", systemImage: "chart.xyaxis.line") }
+                    .tag(2)
+                
+                SettingsView()
+                    .tabItem {
+                        Label("Settings", systemImage: "gear")
+                    }
+                    .tag(3)
+            }
+            .accentColor(Color(hex: "4A90E2"))
             
-            StatisticsView()
-                .tabItem {
-                    Label("Stats", systemImage: "chart.bar.fill")
-                }
-                .tag(2)
-            
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gear")
-                }
-                .tag(3)
+            if let badge = newlyUnlocked {
+                AchievementUnlockToast(achievement: badge)
+                    .padding(.top, 8)
+                    .zIndex(999)
+            }
         }
-        .accentColor(Color(hex: "4A90E2"))
+        .onReceive(AchievementEngine.shared.$achievements) { all in
+            // Find the most recently unlocked one from today
+            let fresh = all
+                .filter { $0.isUnlocked }
+                .filter { Calendar.current.isDateInToday($0.unlockedDate ?? .distantPast) }
+                .sorted { ($0.unlockedDate ?? .distantPast) > ($1.unlockedDate ?? .distantPast) }
+            
+            if let latest = fresh.first, latest.id != lastShownToastId {
+                lastShownToastId = latest.id
+                withAnimation { newlyUnlocked = latest }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.8) {
+                    withAnimation { newlyUnlocked = nil }
+                }
+            }
+        }
     }
 }
 

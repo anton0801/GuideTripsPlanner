@@ -27,6 +27,7 @@ class StorageManager: ObservableObject {
         if let encoded = try? JSONEncoder().encode(trips) {
             UserDefaults.standard.set(encoded, forKey: tripsKey)
         }
+        AchievementEngine.shared.evaluate(trips: trips)
     }
     
     func addTrip(_ trip: Trip) {

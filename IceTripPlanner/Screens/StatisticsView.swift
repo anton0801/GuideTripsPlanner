@@ -1,6 +1,10 @@
 
 import SwiftUI
 
+#Preview {
+    StatisticsView()
+}
+
 struct StatisticsView: View {
     @StateObject private var storageManager = StorageManager.shared
     

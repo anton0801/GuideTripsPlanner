@@ -6,33 +6,116 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8F8A37D42F3B6CFE00A915FA /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8F8A37D32F3B6CFE00A915FA /* FirebaseAnalytics */; };
+		8F8A37D62F3B6CFE00A915FA /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8F8A37D52F3B6CFE00A915FA /* FirebaseDatabase */; };
+		8F8A37D82F3B6CFE00A915FA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F8A37D72F3B6CFE00A915FA /* FirebaseMessaging */; };
+		8F8A37F12F3B6E0800A915FA /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 8F8A37F02F3B6E0800A915FA /* AppsFlyerLib */; };
+		8F8A37FF2F3B6E7900A915FA /* TripsExtNotificaions.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8F8A37F82F3B6E7900A915FA /* TripsExtNotificaions.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8F8A38072F3B6E8600A915FA /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8F8A38062F3B6E8600A915FA /* FirebaseMessaging */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8F8A37FD2F3B6E7900A915FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FCEEBB12F20F50600B844D1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F8A37F72F3B6E7900A915FA;
+			remoteInfo = TripsExtNotificaions;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8F8A38042F3B6E7900A915FA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8F8A37FF2F3B6E7900A915FA /* TripsExtNotificaions.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		8F8A37F82F3B6E7900A915FA /* TripsExtNotificaions.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TripsExtNotificaions.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FCEEBB92F20F50600B844D1 /* IceTripPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IceTripPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8F8A37F32F3B6E2200A915FA /* Exceptions for "IceTripPlanner" folder in "IceTripPlanner" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8FCEEBB82F20F50600B844D1 /* IceTripPlanner */;
+		};
+		8F8A38032F3B6E7900A915FA /* Exceptions for "TripsExtNotificaions" folder in "TripsExtNotificaions" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8F8A37F72F3B6E7900A915FA /* TripsExtNotificaions */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		8F8A37F92F3B6E7900A915FA /* TripsExtNotificaions */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8F8A38032F3B6E7900A915FA /* Exceptions for "TripsExtNotificaions" folder in "TripsExtNotificaions" target */,
+			);
+			path = TripsExtNotificaions;
+			sourceTree = "<group>";
+		};
 		8FCEEBBB2F20F50600B844D1 /* IceTripPlanner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8F8A37F32F3B6E2200A915FA /* Exceptions for "IceTripPlanner" folder in "IceTripPlanner" target */,
+			);
 			path = IceTripPlanner;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8F8A37F52F3B6E7900A915FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F8A38072F3B6E8600A915FA /* FirebaseMessaging in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FCEEBB62F20F50600B844D1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F8A37D82F3B6CFE00A915FA /* FirebaseMessaging in Frameworks */,
+				8F8A37F12F3B6E0800A915FA /* AppsFlyerLib in Frameworks */,
+				8F8A37D62F3B6CFE00A915FA /* FirebaseDatabase in Frameworks */,
+				8F8A37D42F3B6CFE00A915FA /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8F8A38052F3B6E8600A915FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8FCEEBB02F20F50600B844D1 = {
 			isa = PBXGroup;
 			children = (
 				8FCEEBBB2F20F50600B844D1 /* IceTripPlanner */,
+				8F8A37F92F3B6E7900A915FA /* TripsExtNotificaions */,
+				8F8A38052F3B6E8600A915FA /* Frameworks */,
 				8FCEEBBA2F20F50600B844D1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				8FCEEBB92F20F50600B844D1 /* IceTripPlanner.app */,
+				8F8A37F82F3B6E7900A915FA /* TripsExtNotificaions.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +132,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8F8A37F72F3B6E7900A915FA /* TripsExtNotificaions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F8A38002F3B6E7900A915FA /* Build configuration list for PBXNativeTarget "TripsExtNotificaions" */;
+			buildPhases = (
+				8F8A37F42F3B6E7900A915FA /* Sources */,
+				8F8A37F52F3B6E7900A915FA /* Frameworks */,
+				8F8A37F62F3B6E7900A915FA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8F8A37F92F3B6E7900A915FA /* TripsExtNotificaions */,
+			);
+			name = TripsExtNotificaions;
+			packageProductDependencies = (
+				8F8A38062F3B6E8600A915FA /* FirebaseMessaging */,
+			);
+			productName = TripsExtNotificaions;
+			productReference = 8F8A37F82F3B6E7900A915FA /* TripsExtNotificaions.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		8FCEEBB82F20F50600B844D1 /* IceTripPlanner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8FCEEBC52F20F50700B844D1 /* Build configuration list for PBXNativeTarget "IceTripPlanner" */;
@@ -55,16 +162,22 @@
 				8FCEEBB52F20F50600B844D1 /* Sources */,
 				8FCEEBB62F20F50600B844D1 /* Frameworks */,
 				8FCEEBB72F20F50600B844D1 /* Resources */,
+				8F8A38042F3B6E7900A915FA /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8F8A37FE2F3B6E7900A915FA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8FCEEBBB2F20F50600B844D1 /* IceTripPlanner */,
 			);
 			name = IceTripPlanner;
 			packageProductDependencies = (
+				8F8A37D32F3B6CFE00A915FA /* FirebaseAnalytics */,
+				8F8A37D52F3B6CFE00A915FA /* FirebaseDatabase */,
+				8F8A37D72F3B6CFE00A915FA /* FirebaseMessaging */,
+				8F8A37F02F3B6E0800A915FA /* AppsFlyerLib */,
 			);
 			productName = IceTripPlanner;
 			productReference = 8FCEEBB92F20F50600B844D1 /* IceTripPlanner.app */;
@@ -80,6 +193,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					8F8A37F72F3B6E7900A915FA = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					8FCEEBB82F20F50600B844D1 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -94,17 +210,29 @@
 			);
 			mainGroup = 8FCEEBB02F20F50600B844D1;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8F8A37D22F3B6CFE00A915FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8F8A37EF2F3B6E0800A915FA /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8FCEEBBA2F20F50600B844D1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8FCEEBB82F20F50600B844D1 /* IceTripPlanner */,
+				8F8A37F72F3B6E7900A915FA /* TripsExtNotificaions */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8F8A37F62F3B6E7900A915FA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FCEEBB72F20F50600B844D1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +243,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8F8A37F42F3B6E7900A915FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8FCEEBB52F20F50600B844D1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +259,76 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8F8A37FE2F3B6E7900A915FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F8A37F72F3B6E7900A915FA /* TripsExtNotificaions */;
+			targetProxy = 8F8A37FD2F3B6E7900A915FA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		8F8A38012F3B6E7900A915FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TripsExtNotificaions/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TripsExtNotificaions;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tripplann.GuideTripsPlanner.TripsExtNotificaions;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8F8A38022F3B6E7900A915FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TripsExtNotificaions/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TripsExtNotificaions;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tripplann.GuideTripsPlanner.TripsExtNotificaions;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		8FCEEBC32F20F50700B844D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -249,8 +453,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IceTripPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Guide Trips Planner";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Get access to this feature.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "“Guide Trips Plannerc may use limited technical information from your device to support trip planning tools, improve route and feature reliability, and monitor overall app performance. This data is used solely for internal quality and usability improvements and is not used to track users across other apps, websites, or advertising platforms.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -265,7 +472,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.1.00.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tripplann.GuideTripsPlanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -289,8 +496,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = IceTripPlanner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Guide Trips Planner";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Get access to this feature.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "“Guide Trips Plannerc may use limited technical information from your device to support trip planning tools, improve route and feature reliability, and monitor overall app performance. This data is used solely for internal quality and usability improvements and is not used to track users across other apps, websites, or advertising platforms.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -305,7 +515,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 2.1.00.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tripplann.GuideTripsPlanner;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -322,6 +532,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8F8A38002F3B6E7900A915FA /* Build configuration list for PBXNativeTarget "TripsExtNotificaions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F8A38012F3B6E7900A915FA /* Debug */,
+				8F8A38022F3B6E7900A915FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8FCEEBB42F20F50600B844D1 /* Build configuration list for PBXProject "IceTripPlanner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -341,6 +560,53 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8F8A37D22F3B6CFE00A915FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.9.0;
+			};
+		};
+		8F8A37EF2F3B6E0800A915FA /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.17.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8F8A37D32F3B6CFE00A915FA /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F8A37D22F3B6CFE00A915FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		8F8A37D52F3B6CFE00A915FA /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F8A37D22F3B6CFE00A915FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		8F8A37D72F3B6CFE00A915FA /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F8A37D22F3B6CFE00A915FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		8F8A37F02F3B6E0800A915FA /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F8A37EF2F3B6E0800A915FA /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+		8F8A38062F3B6E8600A915FA /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F8A37D22F3B6CFE00A915FA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8FCEEBB12F20F50600B844D1 /* Project object */;
 }

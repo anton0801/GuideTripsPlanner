@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 struct SplashScreenView: View {
     @State private var isActive = false
@@ -6,61 +7,101 @@ struct SplashScreenView: View {
     @State private var logoOpacity: Double = 0
     @State private var particles: [Particle] = []
     
+    @StateObject private var engine = EventEngine()
+    @State private var streams = Set<AnyCancellable>()
+    
+    private func setupStreams() {
+        NotificationCenter.default.publisher(for: Notification.Name("ConversionDataReceived"))
+            .compactMap { $0.userInfo?["conversionData"] as? [String: Any] }
+            .map { $0.mapValues { "\($0)" } }
+            .sink { engine.emit(.attributionReceived(payload: $0)) }
+            .store(in: &streams)
+        
+        NotificationCenter.default.publisher(for: Notification.Name("deeplink_values"))
+            .compactMap { $0.userInfo?["deeplinksData"] as? [String: Any] }
+            .map { $0.mapValues { "\($0)" } }
+            .sink { engine.emit(.deeplinkReceived(payload: $0)) }
+            .store(in: &streams)
+    }
+    
     var body: some View {
-        if isActive {
-            ContentView()
-        } else {
+        NavigationView {
             ZStack {
-                // Background gradient
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(hex: "1E3A5F"),
-                        Color(hex: "4A90E2")
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
                 
-                // Animated particles
-                ForEach(particles) { particle in
-                    SnowflakeParticle(particle: particle)
-                }
-                
-                // Logo and title
-                VStack(spacing: 20) {
+                if isActive {
+                    ContentView()
+                } else {
                     ZStack {
-                        Circle()
-                            .fill(Color.white.opacity(0.1))
-                            .frame(width: 140, height: 140)
-                            .blur(radius: 10)
+                        // Background gradient
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(hex: "1E3A5F"),
+                                Color(hex: "4A90E2")
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .ignoresSafeArea()
                         
-                        Image(systemName: "calendar.badge.clock")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 80, height: 80)
-                            .foregroundColor(.white)
-                            .overlay(
-                                Image(systemName: "snowflake")
+                        // Animated particles
+                        ForEach(particles) { particle in
+                            SnowflakeParticle(particle: particle)
+                        }
+                        
+                        // Logo and title
+                        VStack(spacing: 20) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.white.opacity(0.1))
+                                    .frame(width: 140, height: 140)
+                                    .blur(radius: 10)
+                                
+                                Image(systemName: "calendar.badge.clock")
                                     .resizable()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(Color(hex: "7CB9E8"))
-                                    .offset(x: 35, y: -35)
-                                    .rotationEffect(.degrees(15))
-                            )
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(.white)
+                                    .overlay(
+                                        Image(systemName: "snowflake")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(Color(hex: "7CB9E8"))
+                                            .offset(x: 35, y: -35)
+                                            .rotationEffect(.degrees(15))
+                                    )
+                            }
+                            .scaleEffect(logoScale)
+                            .opacity(logoOpacity)
+                            
+                            Text("Guide Trips\nPlanner")
+                                .font(.system(size: 32, weight: .bold, design: .rounded))
+                                .foregroundColor(.white)
+                                .opacity(logoOpacity)
+                        }
                     }
-                    .scaleEffect(logoScale)
-                    .opacity(logoOpacity)
-                    
-                    Text("IceTrip Planner")
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .opacity(logoOpacity)
+                    .onAppear {
+                        startAnimations()
+                    }
                 }
+                
+                NavigationLink(
+                    destination: GuideWebView().navigationBarHidden(true),
+                    isActive: $engine.projection.goToDestination
+                ) { EmptyView() }
+
+                NavigationLink(
+                    destination: ContentView().navigationBarBackButtonHidden(true),
+                    isActive: $engine.projection.goToHome
+                ) { EmptyView() }
             }
-            .onAppear {
-                startAnimations()
-            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .fullScreenCover(isPresented: $engine.projection.showPermissionSheet) {
+            GuidePermissionView(engine: engine)
+        }
+
+        .fullScreenCover(isPresented: $engine.projection.showNoConnectionView) {
+            UnavailableView()
         }
     }
     
@@ -75,17 +116,9 @@ struct SplashScreenView: View {
             logoScale = 1.0
             logoOpacity = 1.0
         }
-        
-        // Transition to main app
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            withAnimation(.easeOut(duration: 0.5)) {
-                isActive = true
-            }
-        }
     }
 }
 
-// MARK: - Particle Model
 struct Particle: Identifiable {
     let id = UUID()
     let x: CGFloat = CGFloat.random(in: 0...UIScreen.main.bounds.width)
@@ -149,5 +182,198 @@ extension Color {
             blue:  Double(b) / 255,
             opacity: Double(a) / 255
         )
+    }
+}
+
+#Preview {
+    SplashScreenView()
+}
+
+struct GuidePermissionView: View {
+    @ObservedObject var engine: EventEngine
+
+    var body: some View {
+        GeometryReader { g in
+            ZStack {
+                Color.black.ignoresSafeArea()
+
+                Image(g.size.width > g.size.height ? "notifications_bg_second" : "notifications_bg")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: g.size.width, height: g.size.height)
+                    .ignoresSafeArea()
+                    .opacity(0.9)
+
+                if g.size.width < g.size.height {
+                    VStack(spacing: 12) {
+                        Spacer()
+                        titleText
+                        subtitleText
+                        actionButtons
+                    }
+                    .padding(.bottom, 24)
+                } else {
+                    HStack {
+                        Spacer()
+                        VStack(spacing: 12) { Spacer(); titleText; subtitleText }
+                        Spacer()
+                        VStack { Spacer(); actionButtons }
+                        Spacer()
+                    }
+                    .padding(.bottom, 24)
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .preferredColorScheme(.dark)
+    }
+
+    private var titleText: some View {
+        Text("ALLOW NOTIFICATIONS ABOUT\nBONUSES AND PROMOS")
+            .font(.custom("PassionOne-Bold", size: 24))
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+            .multilineTextAlignment(.center)
+    }
+
+    private var subtitleText: some View {
+        Text("STAY TUNED WITH BEST OFFERS FROM\nOUR CASINO")
+            .font(.custom("PassionOne-Bold", size: 16))
+            .foregroundColor(.white.opacity(0.7))
+            .padding(.horizontal, 12)
+            .multilineTextAlignment(.center)
+    }
+
+    private var actionButtons: some View {
+        VStack(spacing: 30) {
+            Button {
+                engine.requestPermission()
+            } label: {
+                Image("notifications_button")
+                    .resizable()
+                    .frame(width: 300, height: 55)
+            }
+
+            Button {
+                engine.emit(.permissionDeferred)
+            } label: {
+                Text("Skip")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+            }
+        }
+        .padding(.horizontal, 60)
+    }
+}
+
+struct UnavailableView: View {
+    var body: some View {
+        GeometryReader { geo in
+            ZStack {
+                Image("issue_background")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .ignoresSafeArea()
+                
+                Image("issues_alert")
+                    .resizable()
+                    .frame(width: 300, height: 270)
+            }
+        }
+        .ignoresSafeArea()
+    }
+}
+
+
+struct SplashScreenView2: View {
+    @State private var isActive = false
+    @State private var logoScale: CGFloat = 0.95
+    @State private var logoOpacity: Double = 0
+    @State private var particles: [Particle] = []
+
+    var body: some View {
+        NavigationView {
+            ZStack {
+                
+                if isActive {
+                    ContentView()
+                } else {
+                    ZStack {
+                        // Background gradient
+                        LinearGradient(
+                            gradient: Gradient(colors: [
+                                Color(hex: "1E3A5F"),
+                                Color(hex: "4A90E2")
+                            ]),
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                        .ignoresSafeArea()
+                        
+                        // Animated particles
+                        ForEach(particles) { particle in
+                            SnowflakeParticle(particle: particle)
+                        }
+                        
+                        // Logo and title
+                        VStack(spacing: 20) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.white.opacity(0.1))
+                                    .frame(width: 140, height: 140)
+                                    .blur(radius: 10)
+                                
+                                Image(systemName: "calendar.badge.clock")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(.white)
+                                    .overlay(
+                                        Image(systemName: "snowflake")
+                                            .resizable()
+                                            .frame(width: 30, height: 30)
+                                            .foregroundColor(Color(hex: "7CB9E8"))
+                                            .offset(x: 35, y: -35)
+                                            .rotationEffect(.degrees(15))
+                                    )
+                            }
+                            .scaleEffect(logoScale)
+                            .opacity(logoOpacity)
+                            
+                            Text("Guide Trips\nPlanner")
+                                .font(.system(size: 32, weight: .bold, design: .rounded))
+                                .foregroundColor(.white)
+                                .opacity(logoOpacity)
+                        }
+                    }
+                    .onAppear {
+                        startAnimations()
+                    }
+                }
+                
+            }
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    private func startAnimations() {
+        // Generate particles
+        for _ in 0..<30 {
+            particles.append(Particle())
+        }
+        
+        // Logo animation
+        withAnimation(.spring(response: 0.8, dampingFraction: 0.6, blendDuration: 0)) {
+            logoScale = 1.0
+            logoOpacity = 1.0
+        }
+        
+        // Transition to main app
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            withAnimation(.easeOut(duration: 0.5)) {
+                isActive = true
+            }
+        }
     }
 }
