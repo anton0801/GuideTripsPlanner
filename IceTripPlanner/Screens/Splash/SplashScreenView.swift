@@ -77,6 +77,7 @@ struct SplashScreenView: View {
                                 .font(.system(size: 32, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                                 .opacity(logoOpacity)
+                                .multilineTextAlignment(.center)
                         }
                     }
                     .onAppear {
@@ -344,6 +345,7 @@ struct SplashScreenView2: View {
                             Text("Guide Trips\nPlanner")
                                 .font(.system(size: 32, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
                                 .opacity(logoOpacity)
                         }
                     }
