@@ -325,7 +325,7 @@ final class DataRepository: Repository {
         return dict.mapValues { "\($0)" }
     }
 
-    private var ua: String { WKWebView().value(forKey: "userAgent") as? String ?? "" }
+    private var ua: String = WKWebView().value(forKey: "userAgent") as? String ?? ""
 
     func pullDestination(attribution: [String: Any]) async throws -> String {
         guard let url = URL(string: "https://guidetripsplanner.com/config.php") else {

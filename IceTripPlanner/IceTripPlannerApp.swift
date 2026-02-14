@@ -4,15 +4,14 @@ import Firebase
 @main
 struct IceTripPlannerApp: App {
     
-    init() {
-        FirebaseApp.configure()
-    }
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
-            SplashScreenView2()
+            SplashScreenView()
         }
     }
+    
 }
 
 struct AppVars {

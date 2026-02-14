@@ -167,7 +167,6 @@ final class WebAgent: NSObject {
     private let jar = "guide_cookies"
 
     func visit(_ url: URL, on w: WKWebView) {
-        print("🗺️ [Guide] Visit: \(url)")
         hops = 0
         var r = URLRequest(url: url)
         r.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
@@ -220,7 +219,7 @@ extension WebAgent: WKNavigationDelegate {
     }
 
     func webView(_ w: WKWebView, didCommit _: WKNavigation!) {
-        if let u = w.url { pin = u; print("✅ [Guide] Commit: \(u)") }
+        if let u = w.url { pin = u; }
     }
 
     func webView(_ w: WKWebView, didFinish _: WKNavigation!) {

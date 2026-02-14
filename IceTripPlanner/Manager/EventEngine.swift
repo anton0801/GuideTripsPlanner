@@ -7,6 +7,11 @@ final class EventEngine: ObservableObject {
     // MARK: - Core
     var bus: EventBus
     var projection: Projection
+    
+    @Published var goToHome: Bool = false
+    @Published var goToDestination: Bool = false
+    @Published var showPermissionSheet: Bool = false
+    @Published var showNoConnectionView: Bool = false
 
     // MARK: - Handlers
     private let launchHandler: LaunchHandler
@@ -43,6 +48,23 @@ final class EventEngine: ObservableObject {
 
         // Wire handlers to bus
         wireHandlers()
+        
+        setupProjectionSync()
+    }
+    
+    private func setupProjectionSync() {
+        // Синхронизируем изменения из projection в engine
+        projection.objectWillChange.sink { [weak self] _ in
+            guard let self = self else { return }
+            
+            Task { @MainActor in
+                self.goToHome = self.projection.goToHome
+                self.goToDestination = self.projection.goToDestination
+                self.showPermissionSheet = self.projection.showPermissionSheet
+                self.showNoConnectionView = self.projection.showNoConnectionView
+            }
+        }
+        .store(in: &cancellables)
     }
 
     func emit(_ event: AppEvent) {

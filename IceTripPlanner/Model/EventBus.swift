@@ -43,21 +43,16 @@ enum AppEvent: Sendable {
 @MainActor
 final class EventBus: ObservableObject {
 
-    // UNIQUE: Event subject
     private let pipe = PassthroughSubject<AppEvent, Never>()
 
-    // UNIQUE: Event stream for handlers
     var stream: AnyPublisher<AppEvent, Never> {
         pipe.eraseToAnyPublisher()
     }
 
-    // UNIQUE: Publish event
     func publish(_ event: AppEvent) {
-        print("📡 [Event] \(event)")
         pipe.send(event)
     }
 
-    // UNIQUE: Subscribe to specific event types
     func on<T>(_ eventType: T.Type, handler: @escaping (AppEvent) -> Void) -> AnyCancellable {
         pipe
             .receive(on: RunLoop.main)

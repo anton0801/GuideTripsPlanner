@@ -154,6 +154,7 @@ final class Projection: ObservableObject {
         case .permissionDeferred:
             permission.lastAsked = Date()
             showPermissionSheet = false
+            goToDestination = true
 
         case .navigateToHome:
             goToHome = true

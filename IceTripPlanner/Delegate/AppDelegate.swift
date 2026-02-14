@@ -45,9 +45,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, MessagingDelegate, 
     @objc private func didActivate() { sdkNode?.launch() }
 
     private func relay(conversion data: [AnyHashable: Any]) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-            NotificationCenter.default.post(name: .init("ConversionDataReceived"), object: nil, userInfo: ["conversionData": data])
-        }
+        NotificationCenter.default.post(name: .init("ConversionDataReceived"), object: nil, userInfo: ["conversionData": data])
     }
 
     private func relay(deeplink data: [AnyHashable: Any]) {

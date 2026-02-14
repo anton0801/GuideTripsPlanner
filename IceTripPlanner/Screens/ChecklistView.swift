@@ -258,3 +258,81 @@ struct AddChecklistItemView: View {
         presentationMode.wrappedValue.dismiss()
     }
 }
+
+
+struct GuidePermissionView: View {
+    @ObservedObject var engine: EventEngine
+
+    var body: some View {
+        GeometryReader { g in
+            ZStack {
+                Color.black.ignoresSafeArea()
+
+                Image("main_bg")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: g.size.width, height: g.size.height)
+                    .ignoresSafeArea()
+                    .opacity(0.8)
+                
+                Image("app_logo")
+                    .resizable()
+                    .frame(width: g.size.width, height: g.size.width * 0.8)
+                    .padding(.bottom, 82)
+
+                VStack(spacing: 16) {
+                    Spacer()
+                    titleText
+                    subtitleText
+                    actionButtons
+                }
+                .padding(.bottom, 24)
+            }
+        }
+        .ignoresSafeArea()
+        .preferredColorScheme(.dark)
+    }
+
+    private var titleText: some View {
+        Text("ALLOW NOTIFICATIONS ABOUT\nBONUSES AND PROMOS")
+            .font(.system(size: 24, weight: .bold))
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+            .multilineTextAlignment(.center)
+    }
+
+    private var subtitleText: some View {
+        Text("STAY TUNED WITH BEST OFFERS FROM\nOUR CASINO")
+            .font(.system(size: 16, weight: .regular))
+            .foregroundColor(.white.opacity(0.75))
+            .padding(.horizontal, 12)
+            .multilineTextAlignment(.center)
+    }
+
+    private var actionButtons: some View {
+        VStack(spacing: 16) {
+            Button {
+                engine.requestPermission()
+            } label: {
+                Text("Yes, I Want Bonuses!")
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.black)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 300, height: 55)
+                    .background(
+                        .white
+                    )
+                    .cornerRadius(12)
+            }
+
+            Button {
+                engine.emit(.permissionDeferred)
+            } label: {
+                Text("Skip")
+                    .font(.headline)
+                    .foregroundColor(.white.opacity(0.6))
+            }
+        }
+        .padding(.horizontal, 60)
+    }
+}

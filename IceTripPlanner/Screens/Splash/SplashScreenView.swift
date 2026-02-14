@@ -27,81 +27,76 @@ struct SplashScreenView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                // Background gradient
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(hex: "1E3A5F"),
+                        Color(hex: "4A90E2")
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
                 
-                if isActive {
-                    ContentView()
-                } else {
-                    ZStack {
-                        // Background gradient
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color(hex: "1E3A5F"),
-                                Color(hex: "4A90E2")
-                            ]),
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                        .ignoresSafeArea()
-                        
-                        // Animated particles
-                        ForEach(particles) { particle in
-                            SnowflakeParticle(particle: particle)
-                        }
-                        
-                        // Logo and title
-                        VStack(spacing: 20) {
-                            ZStack {
-                                Circle()
-                                    .fill(Color.white.opacity(0.1))
-                                    .frame(width: 140, height: 140)
-                                    .blur(radius: 10)
-                                
-                                Image(systemName: "calendar.badge.clock")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(.white)
-                                    .overlay(
-                                        Image(systemName: "snowflake")
-                                            .resizable()
-                                            .frame(width: 30, height: 30)
-                                            .foregroundColor(Color(hex: "7CB9E8"))
-                                            .offset(x: 35, y: -35)
-                                            .rotationEffect(.degrees(15))
-                                    )
-                            }
-                            .scaleEffect(logoScale)
-                            .opacity(logoOpacity)
-                            
-                            Text("Guide Trips\nPlanner")
-                                .font(.system(size: 32, weight: .bold, design: .rounded))
-                                .foregroundColor(.white)
-                                .opacity(logoOpacity)
-                                .multilineTextAlignment(.center)
-                        }
-                    }
-                    .onAppear {
-                        startAnimations()
-                    }
+                // Animated particles
+                ForEach(particles) { particle in
+                    SnowflakeParticle(particle: particle)
                 }
+                
+                // Logo and title
+                VStack(spacing: 20) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.1))
+                            .frame(width: 140, height: 140)
+                            .blur(radius: 10)
+                        
+                        Image(systemName: "calendar.badge.clock")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.white)
+                            .overlay(
+                                Image(systemName: "snowflake")
+                                    .resizable()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundColor(Color(hex: "7CB9E8"))
+                                    .offset(x: 35, y: -35)
+                                    .rotationEffect(.degrees(15))
+                            )
+                    }
+                    .scaleEffect(logoScale)
+                    .opacity(logoOpacity)
+                    
+                    Text("Guide Trips\nPlanner")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                        .opacity(logoOpacity)
+                        .multilineTextAlignment(.center)
+                }
+                
                 
                 NavigationLink(
                     destination: GuideWebView().navigationBarHidden(true),
-                    isActive: $engine.projection.goToDestination
+                    isActive: $engine.goToDestination
                 ) { EmptyView() }
 
                 NavigationLink(
                     destination: ContentView().navigationBarBackButtonHidden(true),
-                    isActive: $engine.projection.goToHome
+                    isActive: $engine.goToHome
                 ) { EmptyView() }
+            }
+            .onAppear {
+                setupStreams()
+                startAnimations()
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .fullScreenCover(isPresented: $engine.projection.showPermissionSheet) {
+        .fullScreenCover(isPresented: $engine.showPermissionSheet) {
             GuidePermissionView(engine: engine)
         }
 
-        .fullScreenCover(isPresented: $engine.projection.showNoConnectionView) {
+        .fullScreenCover(isPresented: $engine.showNoConnectionView) {
             UnavailableView()
         }
     }
@@ -187,97 +182,24 @@ extension Color {
 }
 
 #Preview {
-    SplashScreenView()
-}
-
-struct GuidePermissionView: View {
-    @ObservedObject var engine: EventEngine
-
-    var body: some View {
-        GeometryReader { g in
-            ZStack {
-                Color.black.ignoresSafeArea()
-
-                Image(g.size.width > g.size.height ? "notifications_bg_second" : "notifications_bg")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: g.size.width, height: g.size.height)
-                    .ignoresSafeArea()
-                    .opacity(0.9)
-
-                if g.size.width < g.size.height {
-                    VStack(spacing: 12) {
-                        Spacer()
-                        titleText
-                        subtitleText
-                        actionButtons
-                    }
-                    .padding(.bottom, 24)
-                } else {
-                    HStack {
-                        Spacer()
-                        VStack(spacing: 12) { Spacer(); titleText; subtitleText }
-                        Spacer()
-                        VStack { Spacer(); actionButtons }
-                        Spacer()
-                    }
-                    .padding(.bottom, 24)
-                }
-            }
-        }
-        .ignoresSafeArea()
-        .preferredColorScheme(.dark)
-    }
-
-    private var titleText: some View {
-        Text("ALLOW NOTIFICATIONS ABOUT\nBONUSES AND PROMOS")
-            .font(.custom("PassionOne-Bold", size: 24))
-            .foregroundColor(.white)
-            .padding(.horizontal, 12)
-            .multilineTextAlignment(.center)
-    }
-
-    private var subtitleText: some View {
-        Text("STAY TUNED WITH BEST OFFERS FROM\nOUR CASINO")
-            .font(.custom("PassionOne-Bold", size: 16))
-            .foregroundColor(.white.opacity(0.7))
-            .padding(.horizontal, 12)
-            .multilineTextAlignment(.center)
-    }
-
-    private var actionButtons: some View {
-        VStack(spacing: 30) {
-            Button {
-                engine.requestPermission()
-            } label: {
-                Image("notifications_button")
-                    .resizable()
-                    .frame(width: 300, height: 55)
-            }
-
-            Button {
-                engine.emit(.permissionDeferred)
-            } label: {
-                Text("Skip")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-            }
-        }
-        .padding(.horizontal, 60)
-    }
+    UnavailableView()
 }
 
 struct UnavailableView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                Image("issue_background")
+                Color.black.ignoresSafeArea()
+
+                Image("main_bg")
                     .resizable()
                     .scaledToFill()
                     .frame(width: geo.size.width, height: geo.size.height)
                     .ignoresSafeArea()
+                    .blur(radius: 8)
+                    .opacity(0.8)
                 
-                Image("issues_alert")
+                Image("error_alert")
                     .resizable()
                     .frame(width: 300, height: 270)
             }
@@ -285,7 +207,6 @@ struct UnavailableView: View {
         .ignoresSafeArea()
     }
 }
-
 
 struct SplashScreenView2: View {
     @State private var isActive = false
